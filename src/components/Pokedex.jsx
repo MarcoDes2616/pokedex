@@ -3,47 +3,38 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import ByType from './ByType';
 import GetPokemons from './GetPokemons';
 import Pagination from './Pagination';
+import Sugestions from './Sugestions';
 
 const Pokedex = () => {
-    const perPage = 20
-    const [page, setPage] = useState(1)
-    const lastParam = perPage * page
     const [pokemons, setPokemons] = useState({})
     const [search, setSearch] = useState("")
-    const navigate = useNavigate();
     const username = useSelector(state => state.username);
+    const [suggestions, setSuggestions] = useState([])
+    const navigate = useNavigate();
 
+    //============= Get all pokemons =============
     useEffect(() => {
-        axios.get(`https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1279`)
-            .then(res => setPokemons(res.data))
+        getAllPokemons()
     }, [])
 
-    const pokemonsToShow = pokemons.results?.slice(lastParam - perPage, lastParam);
-
-    const totalPages = Math.ceil(pokemons.count / perPage);
-
-    const arrayIteracion = []
-    const iteracion = () => {
-        for (let i = 1; i <= totalPages; i++) {
-            arrayIteracion.push(i)
-        }
+    const getAllPokemons = () => {
+        axios.get(`https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1279`)
+            .then(res => setPokemons(res.data))
     }
-    iteracion()
+    //============= Get suggestions =============
+    useEffect(() => {
+        getAllPokemons()
+        if(search != ""){
+            let test = pokemons.results?.filter(pokemon =>
+                pokemon.name.startsWith(search));
+                setSuggestions(test?.map((poke) => poke.name));
+            }
+        }, [search])
 
-    let acces
-    const selectAcces = () => {
-        if (page > totalPages - 5) {
-            acces = arrayIteracion.slice(totalPages - 10, totalPages)
-        } else if (page > 5) {
-            acces = arrayIteracion.slice(page - 5, page + 5)
-        } else {
-            acces = arrayIteracion.slice(0, 10)
-        }
-    }
-    selectAcces()
-
+    //============= Get pokemon selected by name =============
     const pokemonSelected = () => {
         axios.get(`https://pokeapi.co/api/v2/pokemon/${search}`)
             .then(res => navigate(`/pokedex/${res.data.id}`))
@@ -55,19 +46,8 @@ const Pokedex = () => {
             <p>Hola {username}, aca podrás encontrar tus Pokemones favoritos!</p>
             <input type="text" value={search} onChange={e => setSearch(e.target.value)} />
             <button onClick={pokemonSelected}>Search</button>
-            <div className='pokemon__container'>
-                {pokemonsToShow?.map((pokemon) => (
-                    <GetPokemons url={pokemon.url} key={pokemon.url} />
-                ))
-                }
-            </div>
-            <div className='acces__container'>
-                <h4>{page}</h4>
-            {acces?.map((num) => (
-                <Pagination num={num} key={num} setPage={setPage} page={page}/>
-            ))
-            }
-            </div>
+            <Sugestions suggestions={suggestions} setSearch={setSearch} />
+            <GetPokemons pokemons={pokemons} setPokemons={setPokemons}/>
         </div>
     );
 };
