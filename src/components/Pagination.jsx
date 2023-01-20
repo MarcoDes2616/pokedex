@@ -1,12 +1,11 @@
 import React from 'react';
 
-const Pagination = ({num}) => {
-    
+const Pagination = ({num, setPage, page}) => {
 
     return (
-        <div>
+        <button onClick={() => setPage(num)}>
             {num}
-        </div>
+        </button >
     );
 };
 

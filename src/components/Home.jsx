@@ -15,8 +15,6 @@ const Home = () => {
         if (inputName != "") {
             dispatch(getUsername(inputName));
             navigate('/pokedex')
-        } else {
-            alert("Ingresa tu nombre")
         }
     }
 
