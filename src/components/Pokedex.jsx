@@ -42,6 +42,7 @@ const Pokedex = () => {
 
     return (
         <div>
+            
             <h1>Bienvenido a la pokedex</h1>
             <p>Hola {username}, aca podrás encontrar tus Pokemones favoritos!</p>
             <input type="text" value={search} onChange={e => setSearch(e.target.value)} />

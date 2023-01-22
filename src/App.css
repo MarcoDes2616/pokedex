@@ -1,3 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;400&display=swap');
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+/*font-family: 'Dosis', sans-serif;*/
+/*font-family: 'Orbitron', sans-serif;*/
+body{
+  font-family: 'Dosis', sans-serif;
+}
+.home{
+  width: 100vw;
+  height: 100vh;
+  background-image: url(./assets/img/bg_home.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.input__container{
+  width: 255px;
+  margin-top: 15rem;
+  position: relative;
+  top: -60px;
+  height: 400px;
+}
+.input__container img{
+  width: 100%;
+  margin: 2rem 0;
+}
+.screen{
+  width: 100%;
+  position: absolute;
+  top: 145px;
+}
+.screen img{
+  height: 100px;
+  width: 100%;
+}
+.input{
+  position: absolute;
+  top: calc(50% - 2rem);
+  left: calc(50% - 100px);
+}
+.input input{
+  width: 200px;
+  height: 40px;
+  background-color: black;
+  font-family: 'Orbitron', sans-serif;
+  color: yellow;
+  text-align: center;
+  font-size: 2rem;
+}
+.input button{
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  color: red;
+  right: 0;
+}
 .pokemon__container{
   display: flex;
   flex-direction: row;
